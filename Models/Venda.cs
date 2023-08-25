@@ -3,7 +3,7 @@
 namespace vendasApi.Models
 {
     public class Venda
-    {
+    {/*
         [Required]
         public int Id { get; set; }
         [Required]
@@ -13,6 +13,6 @@ namespace vendasApi.Models
         [Required]
         public ICollection<Produto> ProdutoId { get; set; }
         public virtual Produto Produto { get; set; }
-
+        */
     }
 }
