@@ -1,18 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace vendasApi.Models
+namespace vendasApi.Data.Dtos.ProdutoDTO
 {
-    public class Produto
+    public class CreateProdutoDTO
     {
         [Required]
-        public int id { get; set; }
-        [Required]
         public string Nome { get; set; }
+
         [Required]
         public decimal preço { get; set; }
 
         [Required]
-        public string Descricao { get; set;}
+        public string Descricao { get; set; }
 
     }
 }

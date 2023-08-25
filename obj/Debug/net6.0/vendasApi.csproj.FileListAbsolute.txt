@@ -47,3 +47,5 @@ C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\obj\Debug
 C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\obj\Debug\net6.0\vendasApi.pdb
 C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\obj\Debug\net6.0\vendasApi.genruntimeconfig.cache
 C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\obj\Debug\net6.0\ref\vendasApi.dll
+C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\bin\Debug\net6.0\vendasApi.xml
+C:\Users\muril\Documents\00_Programacao\C#\Projetos_Pessoais\vendasApi\obj\Debug\net6.0\vendasApi.xml

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using vendasApi.Data.Dtos.Vendedor;
+using vendasApi.Data.Dtos.VendedorDTO;
 using vendasApi.Models;
 
 namespace vendasApi.Profiles;

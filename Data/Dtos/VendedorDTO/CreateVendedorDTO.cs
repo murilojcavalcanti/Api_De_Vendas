@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace vendasApi.Data.Dtos.Vendedor;
+namespace vendasApi.Data.Dtos.VendedorDTO;
 
 public class CreateVendedorDTO
 {

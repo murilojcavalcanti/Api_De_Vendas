@@ -16,9 +16,9 @@ public class ApiVendasContext:DbContext
     }
     */
     public DbSet<Vendedor> Vendedores { get; set; }
-    /*public DbSet<Produto> Produtos { get; set; }
-    public DbSet<Venda> Vendas { get; set; }
-    */
+    public DbSet<Produto> Produtos { get; set; }
+    //public DbSet<Venda> Vendas { get; set; }
+    
 
 
 }

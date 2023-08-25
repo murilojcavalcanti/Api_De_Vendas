@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace vendasApi.Data.Dtos.Vendedor
+namespace vendasApi.Data.Dtos.VendedorDTO
 {
     public class UpdateVendedorDTO
     {
