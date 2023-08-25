@@ -18,13 +18,13 @@ public class VendedorController:ControllerBase
         Context = context;
         Mapper = mapper;
     }
+
     /// <summary>
     /// Adiciona um vendedor ao banco de dados
     /// </summary>
     /// <param name="vendedorDto">Objeto com os campos necessários para criação de um vendedor</param>
     /// <returns>IActionResult</returns>
     /// <response code="201">Caso inserção seja feita com sucesso</response>
-
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult AdicionaVendedor([FromBody] CreateVendedorDTO vendedorDTO)
@@ -42,8 +42,8 @@ public class VendedorController:ControllerBase
     /// <summary>
     /// Retorna Vendedores adicionados ao banco de dados
     /// </summary>
-    /// <returns>IActionResult</returns>
-    /// <response code="200">Caso a requisisção seja feita com sucesso</response>
+    /// <returns>IEnumerable<ReadVendedorDTO></returns>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadVendedorDTO> RecuperaVendedores( )
@@ -57,7 +57,7 @@ public class VendedorController:ControllerBase
     /// </summary>
     /// <param name="id"> inteiro usado para buscar o vendedor com esse indice</param>
     /// <returns>IActionResult</returns>
-    /// <response code="200">Caso a requisisção seja feita com sucesso</response>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult RecuperaVendedorPorId( int id)
@@ -73,7 +73,7 @@ public class VendedorController:ControllerBase
     /// </summary>
     /// <param name="id"> inteiro usado para buscar o vendedor com esse indice</param>
     /// <returns>IActionResult</returns>
-    /// <response code="200">Caso a requisisção seja feita com sucesso</response>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult AtulizaVendedor(int id,[FromBody] UpdateVendedorDTO vendedorDTO)
@@ -90,7 +90,7 @@ public class VendedorController:ControllerBase
     /// </summary>
     /// <param name="id"> inteiro usado para buscar o vendedor com esse indice</param>
     /// <returns>IActionResult</returns>
-    /// <response code="204">Caso a requisisção seja feita com sucesso</response>
+    /// <response code="204">Caso a requisição seja feita com sucesso</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpDelete("{id}")]
     public IActionResult DeletarVendedor(int id)
