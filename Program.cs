@@ -6,7 +6,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var ConString = builder.Configuration.GetConnectionString("APIConnection");
+var ConString = builder.Configuration["ConnectionStrings:APIConnection"];
+
 builder.Services.AddDbContext<ApiVendasContext>(opts=>
 opts.UseLazyLoadingProxies().UseMySql(ConString,ServerVersion.AutoDetect(ConString)));
 
