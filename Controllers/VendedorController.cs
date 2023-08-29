@@ -35,14 +35,16 @@ public class VendedorController:ControllerBase
         return CreatedAtAction(nameof(RecuperaVendedorPorId),
             new
             {
-                id = vendedor.id
+                id = vendedor.Id
             }, vendedorDTO);
     }
 
+
+
     /// <summary>
-    /// Retorna Vendedores adicionados ao banco de dados
+    /// Retorna a lista de vendedores adicionados ao banco de dados
     /// </summary>
-    /// <returns>IEnumerable<ReadVendedorDTO></returns>
+    /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -62,7 +64,7 @@ public class VendedorController:ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult RecuperaVendedorPorId( int id)
     {
-        var vendedor = Context.Vendedores.FirstOrDefault(vendedor=>vendedor.id == id);
+        var vendedor = Context.Vendedores.FirstOrDefault(vendedor=>vendedor.Id == id);
         if(vendedor is null) return NotFound();
         var vendedorDto = Mapper.Map<ReadVendedorDTO>(vendedor);
         return Ok(vendedorDto);
@@ -76,9 +78,9 @@ public class VendedorController:ControllerBase
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult AtulizaVendedor(int id,[FromBody] UpdateVendedorDTO vendedorDTO)
+    public IActionResult AtulizaVendedor(int id,[FromBody] UpdateVendedor vendedorDTO)
     {
-        var vendedor = Context.Vendedores.FirstOrDefault(v=>v.id==id);
+        var vendedor = Context.Vendedores.FirstOrDefault(v=>v.Id==id);
         if(vendedor is null) return NotFound();
         Mapper.Map(vendedorDTO, vendedor);
         Context.SaveChanges();
@@ -95,7 +97,7 @@ public class VendedorController:ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeletarVendedor(int id)
     {
-        var vendedor = RecuperaVendedorPorId(id);
+        var vendedor = Context.Vendedores.FirstOrDefault(v=>v.Id==id);
         if( vendedor is null) return NotFound();
         Context.Remove(vendedor);
         Context.SaveChanges();

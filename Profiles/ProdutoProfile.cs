@@ -8,7 +8,8 @@ public class ProdutoProfile : Profile
 {
     public ProdutoProfile()
     {
+        CreateMap<CreateProdutoDTO, Produto>();
         CreateMap<UpdateProdutoDTO, Produto>();
-        CreateMap<Produto, ReadProdutoDTO>();
+        CreateMap<Produto, ReadProdutoDTO>().ForMember(p=>p.VendaProdutos,opt=>opt.MapFrom(p=>p.VendaProdutos));
     }
 }

@@ -19,7 +19,7 @@
             <returns>IActionResult</returns>
             <response code="200">Caso a requisição seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.ProdutoController.RecuperaProdutos(System.Int32)">
+        <member name="M:vendasApi.Controllers.ProdutoController.RecuperaProdutosPorId(System.Int32)">
             <summary>
             Retorna um produto, que foi buscado pelo id dentro banco de dados
             </summary>
@@ -40,6 +40,55 @@
             <returns>IActionResult</returns>
             <response code="204">Caso a deleção seja feita com sucesso</response>
         </member>
+        <member name="M:vendasApi.Controllers.VendaController.AdicionaVenda(vendasApi.Data.Dtos.VendaDTO.CreateVendaDTO,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Adiciona uma venda ao banco de dados
+            </summary>
+            <param name="vendaDTO">Objeto com os campos necessários para criação de uma venda</param>
+            <param name="produtoId">Lista de Ids de produto para serem adicionados na venda</param>
+            <returns>IActionResult</returns>
+            <response code="201">Caso inserção seja feita com sucesso</response>
+        </member>
+        <member name="M:vendasApi.Controllers.VendaController.AdicionaProdutoVenda(vendasApi.Data.Dtos.VendaProdutoDTO.CreateVendaProdutoDTO)">
+            <summary>
+            Adiciona um produto a uma venda que está no banco de dados
+            </summary>
+            <param name="VendaProdutoDTO"> Objetoo com os parametros de produtoid e VendaId</param>
+            <returns>IActionResult</returns>
+            <response code="201">Caso inserção seja feita com sucesso</response>
+        </member>
+        <member name="M:vendasApi.Controllers.VendaController.RecuperaVendas">
+            <summary>
+            Retorna a lista de vendas adicionadas ao banco de dados
+            </summary>
+            <returns>IActionResult</returns>
+            <response code="200">Caso a requisição seja feita com sucesso</response>
+        </member>
+        <member name="M:vendasApi.Controllers.VendaController.RecuperaVendaPorId(System.Int32)">
+            <summary>
+            Retorna uma venda com o indice escolhido que está no banco de dados
+            </summary>
+            <param name="id"> inteiro usado para buscar a venda com esse indice</param>
+            <returns>IActionResult</returns>
+            <response code="200">Caso a requisição seja feita com sucesso</response>
+        </member>
+        <member name="M:vendasApi.Controllers.VendaController.AtulizaVenda(System.Int32,vendasApi.Data.Dtos.VendaDTO.UpdateVendaDTO)">
+            <summary>
+            Atualiza um venda do banco de dados
+            </summary>
+            <param name="id"> inteiro usado para buscar o venda com esse indice</param>
+            <param name="UpdatevendaDTO"> inteiro usado para definir o </param>
+            <returns>IActionResult</returns>
+            <response code="200">Caso a requisição seja feita com sucesso</response>
+        </member>
+        <member name="M:vendasApi.Controllers.VendaController.DeletarVenda(System.Int32)">
+            <summary>
+            Remove o venda do banco de dados
+            </summary>
+            <param name="id"> inteiro usado para buscar a venda com esse indice</param>
+            <returns>IActionResult</returns>
+            <response code="204">Caso a requisição seja feita com sucesso</response>
+        </member>
         <member name="M:vendasApi.Controllers.VendedorController.AdicionaVendedor(vendasApi.Data.Dtos.VendedorDTO.CreateVendedorDTO)">
             <summary>
             Adiciona um vendedor ao banco de dados
@@ -48,7 +97,13 @@
             <returns>IActionResult</returns>
             <response code="201">Caso inserção seja feita com sucesso</response>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:vendasApi.Controllers.VendedorController.RecuperaVendedores" -->
+        <member name="M:vendasApi.Controllers.VendedorController.RecuperaVendedores">
+            <summary>
+            Retorna a lista de vendedores adicionados ao banco de dados
+            </summary>
+            <returns>IActionResult</returns>
+            <response code="200">Caso a requisição seja feita com sucesso</response>
+        </member>
         <member name="M:vendasApi.Controllers.VendedorController.RecuperaVendedorPorId(System.Int32)">
             <summary>
             Retorna um vendedor com o indice escolhido que está no banco de dados
@@ -57,7 +112,7 @@
             <returns>IActionResult</returns>
             <response code="200">Caso a requisição seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.VendedorController.AtulizaVendedor(System.Int32,vendasApi.Data.Dtos.VendedorDTO.UpdateVendedorDTO)">
+        <member name="M:vendasApi.Controllers.VendedorController.AtulizaVendedor(System.Int32,vendasApi.Data.Dtos.VendedorDTO.UpdateVendedor)">
             <summary>
             Atualiza um vendedor do banco de dados
             </summary>

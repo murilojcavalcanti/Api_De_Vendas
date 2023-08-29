@@ -45,7 +45,7 @@ public class ProdutoController:ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadProdutoDTO> RecuperaProdutos()
     {
-        return Mapper.Map<List<ReadProdutoDTO>>(Context.Produtos);
+        return Mapper.Map<List<ReadProdutoDTO>>(Context.Produtos.ToList());
     }
 
     
@@ -56,9 +56,9 @@ public class ProdutoController:ControllerBase
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult RecuperaProdutos( int id)
+    public IActionResult RecuperaProdutosPorId( int id)
     {
-        var produto = Context.Produtos.FirstOrDefault(p=>p.id==id);
+        var produto = Context.Produtos.FirstOrDefault(p=>p.Id==id);
         if(produto is null) return NotFound();
         var Produtodto = Mapper.Map<ReadProdutoDTO>(produto);
 
@@ -74,7 +74,7 @@ public class ProdutoController:ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult AtualizaProduto(int id, [FromBody] UpdateProdutoDTO produtoDTO)
     {
-        var produto = Context.Produtos.FirstOrDefault(p => p.id == id);
+        var produto = Context.Produtos.FirstOrDefault(p => p.Id == id);
         if(produto is null) return NotFound();
 
         Mapper.Map(produtoDTO, produto);
@@ -91,7 +91,7 @@ public class ProdutoController:ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult DeletaProduto(int id, [FromBody] UpdateProdutoDTO produtoDTO)
     {
-        var produto = Context.Produtos.FirstOrDefault(p => p.id == id);
+        var produto = Context.Produtos.FirstOrDefault(p => p.Id == id);
         if (produto is null) return NotFound();
 
         Context.Remove(produto);

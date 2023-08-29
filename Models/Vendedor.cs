@@ -5,7 +5,7 @@ namespace vendasApi.Models
     public class Vendedor
     {
         [Required]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Nome { get; set; }
         [Required]
@@ -14,5 +14,7 @@ namespace vendasApi.Models
         public string Email { get; set; }
         [Required]
         public string Telefone { get; set; }
+
+        public virtual ICollection<Venda> Vendas { get; set; }
     }
 }

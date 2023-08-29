@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace vendasApi.Data.Dtos.VendedorDTO
 {
-    public class UpdateVendedorDTO
+    public class UpdateVendedor
     {
         [Required]
         public string Nome { get; set; }

@@ -10,6 +10,6 @@ public class VendedorProfile: Profile
     {
         CreateMap<CreateVendedorDTO, Vendedor>();
         CreateMap<Vendedor, ReadVendedorDTO>();
-        CreateMap<UpdateVendedorDTO, Vendedor>();
+        CreateMap<UpdateVendedor, Vendedor>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using vendasApi.Models;
 
 namespace vendasApi.Data.Dtos.VendedorDTO
 {
