@@ -5,7 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <UserSecretsId>ba488da1-cd8e-4298-affa-2109d8dcb830</UserSecretsId>
+	
+  
+    <UserSecretsId>1b56fc02-96fe-4db7-bf31-dc974c9f82e6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Venda\" />
-    <Folder Include="Repositories\Vendedor\" />
   </ItemGroup>
 
 </Project>
