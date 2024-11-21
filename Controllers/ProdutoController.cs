@@ -42,7 +42,7 @@ public class ProdutoController : ControllerBase
 
             ResponseProdutoDTO responseProduto = _mapper.Map<ResponseProdutoDTO>(produto);
 
-            return new CreatedAtRouteResult(nameof(RecuperaProdutoPorId), new { id = responseProduto.Id }, responseProduto);
+            return new CreatedAtRouteResult("RecuperaProdutoPorId", new { id = responseProduto.Id }, responseProduto);
 
         }
         catch (Exception)
@@ -61,18 +61,18 @@ public class ProdutoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<ResponseProdutoDTO>> RecuperaProdutos()
     {
-       /* try
-        {*/
+        try
+        {
             IEnumerable<Produto> produtos = _unitOfWork.ProdutoRepository.GetAll();
 
             IEnumerable<ResponseProdutoDTO> responseProdutosDTO = _mapper.Map<IEnumerable<ResponseProdutoDTO>>(produtos);
 
             return Ok(responseProdutosDTO.ToList());
-       /* }
+        }
         catch (Exception)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, "ocorreu um erro ao processar a sua solicitação!");
-        }*/
+        }
     }
 
 
@@ -81,7 +81,7 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "RecuperaProdutoPorId")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ResponseProdutoDTO> RecuperaProdutoPorId(int id)
     {
@@ -108,7 +108,7 @@ public class ProdutoController : ControllerBase
     /// </summary>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a Atualização seja feita com sucesso</response>
-    [HttpPut("{id}", Name = "RecuperaProduto")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ResponseProdutoDTO> AtualizaProduto(int id, [FromBody] UpdateProdutoDTO produtoDTO)
     {
