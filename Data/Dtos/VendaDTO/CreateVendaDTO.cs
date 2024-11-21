@@ -10,4 +10,5 @@ public class CreateVendaDTO
 { 
     [Required]
     public int VendedorId { get; set; }
+
 }

@@ -7,14 +7,14 @@ using vendasApi.Data.Dtos.VendaProdutoDTO;
 
 namespace vendasApi.Data.Dtos.VendaDTO;
 
-public class ReadVendaDTO
+public class ResponseVendaDTO
 {
     public int Id { get; set; }
     public StatusVendaEnum StatusVenda { get; set; }
     public DateTime DataPedido { get; set; } = DateTime.Now;
 
-    public ReadVendedorDTO Vendedor { get; set; }
+    public ResponseVendedorDTO Vendedor { get; set; }
 
-    public ICollection<ReadVendaProdutoDTO> VendaProdutos { get; set; }
+    //public ICollection<ReadVendaProdutoDTO> VendaProdutos { get; set; }
 
 }
