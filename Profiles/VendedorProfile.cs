@@ -9,7 +9,7 @@ public class VendedorProfile: Profile
     public VendedorProfile()
     {
         CreateMap<CreateVendedorDTO, Vendedor>();
-        CreateMap<Vendedor, ReadVendedorDTO>();
+        CreateMap<Vendedor, ResponseVendedorDTO>();
         CreateMap<UpdateVendedor, Vendedor>();
     }
 }
