@@ -1,25 +1,24 @@
 ﻿using ApiVendasApi.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
 using vendasApi.Data.Dtos.VendaDTO;
 using vendasApi.Data.Dtos.VendaProdutoDTO;
-using vendasApi.Enums;
 using vendasApi.Models;
+using vendasApi.Repositories.unitOfWork;
 
 namespace vendasApi.Controllers;
 
 [Controller]
 [Route("[controller]")]
-public class VendaController:ControllerBase
+public class VendaController : ControllerBase
 {
-    private ApiVendasContext Context;
+    private IUnitOfWork _unitOfWork;
     private IMapper Mapper;
 
-    public VendaController(ApiVendasContext context, IMapper mapper)
+    public VendaController(IMapper mapper, IUnitOfWork unitOfWork)
     {
-        Context = context;
         Mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -31,24 +30,24 @@ public class VendaController:ControllerBase
     /// <response code="201">Caso inserção seja feita com sucesso</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public IActionResult AdicionaVenda([FromQuery] CreateVendaDTO vendaDTO, List<int> produtoId)
+    public ActionResult<ResponseVendaDTO> AdicionaVenda([FromQuery] CreateVendaDTO vendaDTO)
     {
-        Venda venda = Mapper.Map<Venda>(vendaDTO);
-        Context.Vendas.Add(venda);
-        Context.SaveChanges();
-        for (int i = 0; i < produtoId.Count; i++)
+        try
         {
-            VendaProduto vendaProduto = new VendaProduto();
-            vendaProduto.ProdutoId = produtoId[i];
-            vendaProduto.VendaId = venda.Id;
-            Context.VendasProdutos.Add(vendaProduto);
+            Venda venda = Mapper.Map<Venda>(vendaDTO);
+            Venda VendaCreated = _unitOfWork.VendaRepository.Create(venda);
+            _unitOfWork.Commit();
+            ResponseVendaDTO responseVendaDTO = Mapper.Map<ResponseVendaDTO>(VendaCreated);
+            return CreatedAtAction("RecuperaVendaPorId",
+                new
+                {
+                    id = responseVendaDTO.Id
+                }, responseVendaDTO);
         }
-        Context.SaveChanges();
-        return CreatedAtAction(nameof(RecuperaVendaPorId),
-            new
-            {
-                id = venda.Id
-            }, venda);
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
     }
     /// <summary>
     /// Adiciona um produto a uma venda que está no banco de dados
@@ -56,7 +55,7 @@ public class VendaController:ControllerBase
     /// <param name="VendaProdutoDTO"> Objetoo com os parametros de produtoid e VendaId</param>
     /// <returns>IActionResult</returns>
     /// <response code="201">Caso inserção seja feita com sucesso</response>
-    [HttpPost("/AdicionaProdutoVenda")]
+    /*[HttpPost("/AdicionaProdutoVenda")]
     public IActionResult AdicionaProdutoVenda([FromQuery] CreateVendaProdutoDTO VendaProdutoDTO)
     {
         var vendaProduto = Mapper.Map<VendaProduto>(VendaProdutoDTO);
@@ -64,7 +63,7 @@ public class VendaController:ControllerBase
 
         Context.SaveChanges();
         return Ok(vendaProduto);
-    }
+    }*/
 
 
     /// <summary>
@@ -74,10 +73,18 @@ public class VendaController:ControllerBase
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadVendaDTO> RecuperaVendas( )
+    public ActionResult<IEnumerable<ResponseVendaDTO>> RecuperaVendas(int take = 10)
     {
-        var Vendas = Mapper.Map<List<ReadVendaDTO>>(Context.Vendas.ToList());
-        return Vendas;
+        try
+        {
+            List<Venda> vendas = _unitOfWork.VendaRepository.RecuperaVendasComVendedor().Take(take).ToList();
+            List<ResponseVendaDTO> responseVendas = Mapper.Map<List<ResponseVendaDTO>>(vendas);
+            return responseVendas;
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
     }
 
     /// <summary>
@@ -88,12 +95,19 @@ public class VendaController:ControllerBase
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult RecuperaVendaPorId( int id)
+    public ActionResult<ResponseVendaDTO> RecuperaVendaPorId(int id)
     {
-        var venda = Context.Vendas.FirstOrDefault(venda=>venda.Id == id);
-        if(venda is null) return NotFound();
-        var vendaDto = Mapper.Map<ReadVendaDTO>(venda);
-        return Ok(vendaDto);
+        try
+        {
+            Venda venda = _unitOfWork.VendaRepository.Get(venda => venda.Id == id);
+            if (venda is null) return NotFound();
+            var vendaDto = Mapper.Map<ResponseVendaDTO>(venda);
+            return Ok(vendaDto);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
     }
 
     /// <summary>
@@ -105,33 +119,47 @@ public class VendaController:ControllerBase
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IActionResult AtulizaVenda(int id,[FromBody] UpdateVendaDTO UpdatevendaDTO)
+    public ActionResult<ResponseVendaDTO> AtulizaVenda(int id, [FromBody] UpdateVendaDTO UpdatevendaDTO)
     {
-        var venda = Context.Vendas.FirstOrDefault(v=>v.Id==id);
-        if(venda is null) return NotFound();
-        if (venda.StatusVenda == Enums.StatusVendaEnum.AguardandoPagamento &&
-            (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado|| UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado))
+        try
         {
-            Mapper.Map(UpdatevendaDTO, venda);
-            Context.SaveChanges();
-            return Ok(UpdatevendaDTO);
-        }
-        if (venda.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado &&
-            (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.EnviadoParaTransportadora || UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.Cancelada))
-        {
-            Mapper.Map(UpdatevendaDTO, venda);
-            Context.SaveChanges();
-            return Ok(UpdatevendaDTO);
-        }
-        if (venda.StatusVenda == Enums.StatusVendaEnum.EnviadoParaTransportadora &&
-            (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.Entregue ))
-        {
-            Mapper.Map(UpdatevendaDTO, venda);
-            Context.SaveChanges();
-            return Ok(UpdatevendaDTO);
-        }
 
-        return Ok("Atualização de venda Inválida");
+            Venda venda = _unitOfWork.VendaRepository.Get(v => v.Id == id);
+            Venda vendaUpdate = Mapper.Map<Venda>(UpdatevendaDTO);
+            Venda vendaUpdated = null;
+
+            if (venda is null) return NotFound();
+
+            if (venda.StatusVenda == Enums.StatusVendaEnum.AguardandoPagamento &&
+                (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado || UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado))
+            {
+                vendaUpdated=_unitOfWork.VendaRepository.Update(vendaUpdate);
+            }
+            else if (venda.StatusVenda == Enums.StatusVendaEnum.PagamentoAprovado &&
+                (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.EnviadoParaTransportadora || UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.Cancelada))
+            {
+                vendaUpdated = _unitOfWork.VendaRepository.Update(vendaUpdate);
+            }
+            else if (venda.StatusVenda == Enums.StatusVendaEnum.EnviadoParaTransportadora &&
+                (UpdatevendaDTO.StatusVenda == Enums.StatusVendaEnum.Entregue))
+            {
+                vendaUpdated = _unitOfWork.VendaRepository.Update(vendaUpdate);
+            }
+            
+
+            if(!(vendaUpdated is null))
+            {
+                ResponseVendaDTO responseVendaDTO = Mapper.Map<ResponseVendaDTO>(vendaUpdated);
+                return Ok(responseVendaDTO);
+            }
+
+                return BadRequest("Atualização de venda Inválida");
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+
+        }
     }
 
     /// <summary>
@@ -144,11 +172,10 @@ public class VendaController:ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeletarVenda(int id)
     {
-        var venda = Context.Vendas.FirstOrDefault(v=>v.Id==id);
-        if( venda is null) return NotFound();
-        Context.Remove(venda);
-        Context.SaveChanges();
-        return NoContent();
-
+        Venda venda = _unitOfWork.VendaRepository.Get(v => v.Id == id);
+        if (venda is null) return NotFound();
+        Venda vendaDeleted = _unitOfWork.VendaRepository.Delete(venda);
+        _unitOfWork.Commit();
+        return Ok(Mapper.Map<ResponseVendaDTO>(vendaDeleted));
     }
 }
