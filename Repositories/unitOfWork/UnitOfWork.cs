@@ -1,5 +1,6 @@
 ﻿using ApiVendasApi.Data;
 using vendasApi.Repositories.produtoRepository;
+using vendasApi.Repositories.vendaRepository;
 using vendasApi.Repositories.vendedorRepository;
 
 namespace vendasApi.Repositories.unitOfWork
@@ -10,6 +11,7 @@ namespace vendasApi.Repositories.unitOfWork
 
         private IProdutoRepository _produtoRepository;
         private IVendedorRepository _vendedorRepository;
+        private IVendaRepository _vendaRepository;
 
         public UnitOfWork(ApiVendasContext context)
         {
@@ -26,6 +28,11 @@ namespace vendasApi.Repositories.unitOfWork
                 return _vendedorRepository = _vendedorRepository ?? new VendedorRepository(_context);
             } 
         }
+
+        public IVendaRepository VendaRepository { get 
+            {
+                return _vendaRepository = _vendaRepository?? new VendaRepository(_context);
+            } }
 
         public void Commit()
         {

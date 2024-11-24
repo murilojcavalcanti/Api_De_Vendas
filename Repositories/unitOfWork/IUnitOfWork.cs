@@ -1,4 +1,5 @@
 ﻿using vendasApi.Repositories.produtoRepository;
+using vendasApi.Repositories.vendaRepository;
 using vendasApi.Repositories.vendedorRepository;
 
 namespace vendasApi.Repositories.unitOfWork
@@ -8,6 +9,7 @@ namespace vendasApi.Repositories.unitOfWork
         IProdutoRepository ProdutoRepository { get; }
         IVendedorRepository VendedorRepository { get; }
 
+        IVendaRepository VendaRepository { get; }
         void Commit();
     }
 }
