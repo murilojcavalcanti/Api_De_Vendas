@@ -63,21 +63,6 @@ namespace vendasApi.Migrations
                     b.ToTable("Vendas");
                 });
 
-            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
-                {
-                    b.Property<int>("VendaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("VendaId", "ProdutoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("VendasProdutos");
-                });
-
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>
                 {
                     b.Property<int>("Id")
@@ -114,35 +99,6 @@ namespace vendasApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Vendedor");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
-                {
-                    b.HasOne("vendasApi.Models.Produto", "Produto")
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("vendasApi.Models.Venda", "Venda")
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("VendaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
-
-                    b.Navigation("Venda");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.Produto", b =>
-                {
-                    b.Navigation("VendaProdutos");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.Venda", b =>
-                {
-                    b.Navigation("VendaProdutos");
                 });
 
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>

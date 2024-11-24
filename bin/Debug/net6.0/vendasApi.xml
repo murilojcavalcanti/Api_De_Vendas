@@ -4,7 +4,7 @@
         <name>vendasApi</name>
     </assembly>
     <members>
-        <member name="M:vendasApi.Controllers.ProdutoController.AdicionaProduto(vendasApi.Data.Dtos.ProdutoDTO.UpdateProdutoDTO)">
+        <member name="M:vendasApi.Controllers.ProdutoController.AdicionaProduto(vendasApi.Data.Dtos.ProdutoDTO.CreateProdutoDTO)">
             <summary>
             Adiciona um Produto ao banco de dados
             </summary>
@@ -19,7 +19,7 @@
             <returns>IActionResult</returns>
             <response code="200">Caso a requisição seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.ProdutoController.RecuperaProdutosPorId(System.Int32)">
+        <member name="M:vendasApi.Controllers.ProdutoController.RecuperaProdutoPorId(System.Int32)">
             <summary>
             Retorna um produto, que foi buscado pelo id dentro banco de dados
             </summary>
@@ -33,14 +33,14 @@
             <returns>IActionResult</returns>
             <response code="200">Caso a Atualização seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.ProdutoController.DeletaProduto(System.Int32,vendasApi.Data.Dtos.ProdutoDTO.UpdateProdutoDTO)">
+        <member name="M:vendasApi.Controllers.ProdutoController.DeletaProduto(System.Int32)">
             <summary>
             Deteleta um produto, que foi buscado pelo id dentro banco de dados
             </summary>
             <returns>IActionResult</returns>
             <response code="204">Caso a deleção seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.VendaController.AdicionaVenda(vendasApi.Data.Dtos.VendaDTO.CreateVendaDTO,System.Collections.Generic.List{System.Int32})">
+        <member name="M:vendasApi.Controllers.VendaController.AdicionaVenda(vendasApi.Data.Dtos.VendaDTO.CreateVendaDTO)">
             <summary>
             Adiciona uma venda ao banco de dados
             </summary>
@@ -49,15 +49,7 @@
             <returns>IActionResult</returns>
             <response code="201">Caso inserção seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.VendaController.AdicionaProdutoVenda(vendasApi.Data.Dtos.VendaProdutoDTO.CreateVendaProdutoDTO)">
-            <summary>
-            Adiciona um produto a uma venda que está no banco de dados
-            </summary>
-            <param name="VendaProdutoDTO"> Objetoo com os parametros de produtoid e VendaId</param>
-            <returns>IActionResult</returns>
-            <response code="201">Caso inserção seja feita com sucesso</response>
-        </member>
-        <member name="M:vendasApi.Controllers.VendaController.RecuperaVendas">
+        <member name="M:vendasApi.Controllers.VendaController.RecuperaVendas(System.Int32)">
             <summary>
             Retorna a lista de vendas adicionadas ao banco de dados
             </summary>
@@ -97,7 +89,7 @@
             <returns>IActionResult</returns>
             <response code="201">Caso inserção seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.VendedorController.RecuperaVendedores">
+        <member name="M:vendasApi.Controllers.VendedorController.RecuperaVendedores(System.Int32)">
             <summary>
             Retorna a lista de vendedores adicionados ao banco de dados
             </summary>

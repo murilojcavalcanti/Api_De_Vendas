@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vendasApi.Migrations
 {
-    public partial class migration1 : Migration
+    public partial class m1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,47 +74,14 @@ namespace vendasApi.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "VendasProdutos",
-                columns: table => new
-                {
-                    VendaId = table.Column<int>(type: "int", nullable: false),
-                    ProdutoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VendasProdutos", x => new { x.VendaId, x.ProdutoId });
-                    table.ForeignKey(
-                        name: "FK_VendasProdutos_Produtos_ProdutoId",
-                        column: x => x.ProdutoId,
-                        principalTable: "Produtos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_VendasProdutos_Vendas_VendaId",
-                        column: x => x.VendaId,
-                        principalTable: "Vendas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Vendas_VendedorId",
                 table: "Vendas",
                 column: "VendedorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VendasProdutos_ProdutoId",
-                table: "VendasProdutos",
-                column: "ProdutoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "VendasProdutos");
-
             migrationBuilder.DropTable(
                 name: "Produtos");
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace vendasApi.Migrations
 {
     [DbContext(typeof(ApiVendasContext))]
-    [Migration("20230828231714_migration1")]
-    partial class migration1
+    [Migration("20241122230541_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,21 +65,6 @@ namespace vendasApi.Migrations
                     b.ToTable("Vendas");
                 });
 
-            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
-                {
-                    b.Property<int>("VendaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("VendaId", "ProdutoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("VendasProdutos");
-                });
-
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>
                 {
                     b.Property<int>("Id")
@@ -116,35 +101,6 @@ namespace vendasApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Vendedor");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
-                {
-                    b.HasOne("vendasApi.Models.Produto", "Produto")
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("vendasApi.Models.Venda", "Venda")
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("VendaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
-
-                    b.Navigation("Venda");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.Produto", b =>
-                {
-                    b.Navigation("VendaProdutos");
-                });
-
-            modelBuilder.Entity("vendasApi.Models.Venda", b =>
-                {
-                    b.Navigation("VendaProdutos");
                 });
 
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>

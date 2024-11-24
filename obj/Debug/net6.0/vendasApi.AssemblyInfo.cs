@@ -11,11 +11,11 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("ba488da1-cd8e-4298-affa-2109d8dcb830")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("1b56fc02-96fe-4db7-bf31-dc974c9f82e6")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("vendasApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5e5256c21313170f51f88be0a00d3bbeda7ee0c")]
 [assembly: System.Reflection.AssemblyProductAttribute("vendasApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("vendasApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
