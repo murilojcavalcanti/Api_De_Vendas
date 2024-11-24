@@ -65,7 +65,7 @@ public class VendedorController : ControllerBase
         try
         {
 
-            List<Vendedor> vendedores = _unitOfWork.VendedorRepository.GetAll().Take(take).ToList();
+            List<Vendedor> vendedores = _unitOfWork.VendedorRepository.RecuperaVendedoresComVendas().Take(take).ToList();
             List<ResponseVendedorDTO> Vendedores = _mapper.Map<List<ResponseVendedorDTO>>(vendedores);
             return Vendedores;
         }
