@@ -7,18 +7,25 @@ using vendasApi.Repositories.produtoRepository;
 using vendasApi.Repositories;
 using vendasApi.Repositories.unitOfWork;
 using System.Text.Json.Serialization;
+using vendasApi.Repositories.vendedorRepository;
+using vendasApi.Repositories.vendaRepository;
+using Microsoft.AspNetCore.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var ConString = builder.Configuration["ConnectionStrings:APIConnection"];
 
 builder.Services.AddDbContext<ApiVendasContext>(opts=>
-opts.UseLazyLoadingProxies().UseMySql(ConString,ServerVersion.AutoDetect(ConString)));
+opts.UseMySql(ConString,ServerVersion.AutoDetect(ConString)));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions(opts=>opts.JsonSerializerOptions.ReferenceHandler=ReferenceHandler.IgnoreCycles).AddNewtonsoftJson();
+builder.Services.AddControllers().AddJsonOptions(opts =>
+{
+    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -29,7 +36,10 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
+builder.Services.AddScoped<IVendaRepository,VendaRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 

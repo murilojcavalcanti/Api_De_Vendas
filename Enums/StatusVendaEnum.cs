@@ -1,6 +1,6 @@
 ﻿namespace vendasApi.Enums;
 
-public enum StatusVendaEnum
+public enum StatusVendaEnum:int
 {
     AguardandoPagamento = 0, 
     PagamentoAprovado = 1,
