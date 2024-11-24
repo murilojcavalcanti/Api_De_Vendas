@@ -14,7 +14,7 @@ namespace vendasApi.Models
         [Required]
         public string Descricao { get; set;}
 
-        public virtual ICollection<VendaProduto> VendaProdutos { get; set; }
+        //public virtual ICollection<VendaProduto> VendaProdutos { get; set; }
 
     }
 }

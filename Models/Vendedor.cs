@@ -14,7 +14,6 @@ namespace vendasApi.Models
         public string Email { get; set; }
         [Required]
         public string Telefone { get; set; }
-
-        public virtual ICollection<Venda> Vendas { get; set; }
+        public ICollection<Venda> Vendas { get; set; }
     }
 }

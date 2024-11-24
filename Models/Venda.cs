@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using vendasApi.Enums;
 
 namespace vendasApi.Models
@@ -12,13 +13,14 @@ namespace vendasApi.Models
         [Required]
         [DefaultValue(StatusVendaEnum.AguardandoPagamento)]
         public StatusVendaEnum StatusVenda { get; set; }
-        
+
         [Required]
         public DateTime DataPedido { get; set; } = DateTime.Now;
 
         [Required]
         public int VendedorId { get; set; }
-        public virtual Vendedor Vendedor { get; set; }
-        public  virtual ICollection<VendaProduto> VendaProdutos { get; set; }
+        
+        [JsonIgnore]
+        public Vendedor Vendedor { get; set; }
     }
 }
