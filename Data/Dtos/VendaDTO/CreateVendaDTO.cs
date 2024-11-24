@@ -11,4 +11,5 @@ public class CreateVendaDTO
     [Required]
     public int VendedorId { get; set; }
 
+    public DateTime DataPedido { get; set; } = DateTime.Now;
 }

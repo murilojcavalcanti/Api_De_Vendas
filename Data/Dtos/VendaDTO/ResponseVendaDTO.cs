@@ -15,6 +15,4 @@ public class ResponseVendaDTO
 
     public ResponseVendedorDTO Vendedor { get; set; }
 
-    //public ICollection<ReadVendaProdutoDTO> VendaProdutos { get; set; }
-
 }
