@@ -28,7 +28,6 @@ namespace vendasApi.Repositories
             _context.Set<T>().Add(Entity);
             return Entity;
         }
-        /// <inheritdoc/>
         
         public T Update(T Entity)
         {
