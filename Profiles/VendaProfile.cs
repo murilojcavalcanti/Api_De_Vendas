@@ -8,12 +8,8 @@ public class VendaProfile: Profile
 {
     public VendaProfile()
     {
-        CreateMap<CreateVendaDTO, Venda>();
-        CreateMap<Venda, ReadVendaDTO>()
-            .ForMember(venda => venda.VendaProdutos,
-            opt => opt.MapFrom(Venda => Venda.VendaProdutos));
-            
-        CreateMap<UpdateVendaDTO, Venda>();
-        CreateMap<Venda, UpdateVendaDTO>();
+        CreateMap<CreateVendaDTO, Venda>().ReverseMap();
+        CreateMap<Venda, ResponseVendaDTO>().ReverseMap();
+        CreateMap<UpdateVendaDTO, Venda>().ReverseMap();
     }
 }
