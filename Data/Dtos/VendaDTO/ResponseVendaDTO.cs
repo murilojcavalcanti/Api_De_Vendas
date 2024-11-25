@@ -4,6 +4,7 @@ using vendasApi.Enums;
 using vendasApi.Data.Dtos.VendedorDTO;
 using vendasApi.Data.Dtos.ProdutoDTO;
 using vendasApi.Data.Dtos.VendaProdutoDTO;
+using vendasApi.Models;
 
 namespace vendasApi.Data.Dtos.VendaDTO;
 
@@ -15,4 +16,5 @@ public class ResponseVendaDTO
 
     public ResponseVendedorDTO Vendedor { get; set; }
 
+    public ICollection<ResponseProdutoDTO> Produtos { get; set; }
 }

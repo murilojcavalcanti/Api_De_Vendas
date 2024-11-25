@@ -9,6 +9,5 @@ namespace vendasApi.Data.Dtos.ProdutoDTO
         public string Nome { get; set; }
         public decimal preço { get; set; }
         public string Descricao { get; set; }
-        public ICollection<ReadVendaProdutoDTO> VendaProdutos { get; set; }
     }
 }
