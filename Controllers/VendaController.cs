@@ -54,8 +54,6 @@ public class VendaController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
         }
     }
-    
-
 
     /// <summary>
     /// Retorna a lista de vendas adicionadas ao banco de dados
@@ -65,6 +63,27 @@ public class VendaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<ResponseVendaDTO>> RecuperaVendas(int take = 10)
+    {
+        try
+        {
+            List<Venda> vendas = _unitOfWork.VendaRepository.GetAll().Take(take).ToList();
+            List<ResponseVendaDTO> responseVendas = Mapper.Map<List<ResponseVendaDTO>>(vendas);
+            return responseVendas;
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
+    }
+
+    /// <summary>
+    /// Retorna a lista de vendas adicionadas ao banco de dados
+    /// </summary>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<IEnumerable<ResponseVendaDTO>> RecuperaVendasComVendedor(int take = 10)
     {
         try
         {
@@ -100,6 +119,76 @@ public class VendaController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
         }
     }
+    /// <summary>
+    /// Retorna uma venda com o indice escolhido que está no banco de dados, onde tras os dados de vendedor e produtos
+    /// </summary>
+    /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ResponseVendaDTO> RecuperaVendaPorIdComVendedor(int id)
+    {
+        try
+        {
+            Venda venda = _unitOfWork.VendaRepository.Get(venda => venda.Id == id);
+            if (venda is null) return NotFound();
+            var vendaDto = Mapper.Map<ResponseVendaDTO>(venda);
+            return Ok(vendaDto);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
+    }
+
+    /// <summary>
+    /// Retorna uma venda com o indice do vendedor escolhido que está no banco de dados, onde tras os dados de vendedor e produtos
+    /// </summary>
+    /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ResponseVendaDTO> RecuperaVendaPorVendedor(int id)
+    {
+        try
+        {
+            Venda venda = _unitOfWork.VendaRepository.RecuperaVendaPorVendedor(id);
+            if (venda is null) return NotFound();
+            var vendaDto = Mapper.Map<ResponseVendaDTO>(venda);
+            return Ok(vendaDto);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
+    }
+
+    /// <summary>
+    /// Retorna uma venda com o indice do vendedor escolhido que está no banco de dados, onde tras os dados de vendedor e produtos
+    /// </summary>
+    /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Caso a requisição seja feita com sucesso</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ResponseVendaDTO> RecuperaVendaPorVendedor(DateTime data)
+    {
+        try
+        {
+            Venda venda = _unitOfWork.VendaRepository.RecuperaVendaPorData(data.Date);
+            if (venda is null) return NotFound();
+            var vendaDto = Mapper.Map<ResponseVendaDTO>(venda);
+            return Ok(vendaDto);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
+        }
+    }
+
+
 
     /// <summary>
     /// Atualiza um venda do banco de dados
