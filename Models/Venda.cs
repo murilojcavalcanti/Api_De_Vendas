@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using vendasApi.Data.Dtos.ProdutoDTO;
 using vendasApi.Enums;
 
 namespace vendasApi.Models
@@ -22,5 +23,8 @@ namespace vendasApi.Models
         
         [JsonIgnore]
         public Vendedor Vendedor { get; set; }
+
+        public ICollection<VendaProduto> vendaProdutos { get; set; } = new List<VendaProduto>();
+        public ICollection<Produto> Produtos { get; set; }
     }
 }
