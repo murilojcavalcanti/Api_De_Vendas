@@ -11,20 +11,31 @@ public class ApiVendasContext:DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<VendaProduto>().HasKey(vp =>
+        new {
+            vp.VendaId,
+            vp.ProdutoId
+        });
+        modelBuilder.Entity<VendaProduto>()
+            .HasOne(vp => vp.Venda)
+            .WithMany(venda => venda.vendaProdutos)
+            .HasForeignKey(vp => vp.VendaId);
+
+        modelBuilder.Entity<VendaProduto>()
+            .HasOne(vp => vp.Produto)
+            .WithMany(produto => produto.vendaProdutos)
+            .HasForeignKey(vp => vp.ProdutoId);
+
         modelBuilder.Entity<Vendedor>()
             .HasMany(vendedor => vendedor.Vendas)
             .WithOne(venda => venda.Vendedor)
             .HasForeignKey(venda=>venda.VendedorId)
             .IsRequired();
-    }
 
-    internal object Add()
-    {
-        throw new NotImplementedException();
     }
 
     public DbSet<Vendedor> Vendedores { get; set; }
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Venda> Vendas { get; set; }
-    
+    public DbSet<VendaProduto> VendaProdutos { get; set; }
 }
