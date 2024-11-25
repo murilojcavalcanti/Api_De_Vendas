@@ -21,7 +21,32 @@ namespace vendasApi.Repositories.vendaRepository
                 .ThenInclude(vp => vp.Produto)
                 .ToList();
         }
-        
+        public Venda RecuperaVendaComVendedor(int id)
+        {
+            return _context.Set<Venda>()
+                .Include(v => v.Vendedor)
+                .Include(v => v.vendaProdutos)
+                .ThenInclude(vp => vp.Produto)
+                .FirstOrDefault(v=>v.Id==id);
+        }
+
+        public Venda RecuperaVendaPorVendedor(int id)
+        {
+            return _context.Set<Venda>()
+                .Include(v => v.Vendedor)
+                .Include(v => v.vendaProdutos)
+                .ThenInclude(vp => vp.Produto)
+                .FirstOrDefault(v => v.Vendedor.Id == id);
+        }
+        public Venda RecuperaVendaPorData(DateTime dateTime)
+        {
+            return _context.Set<Venda>()
+                .Include(v => v.Vendedor)
+                .Include(v => v.vendaProdutos)
+                .ThenInclude(vp => vp.Produto)
+                .FirstOrDefault(v => v.DataPedido.Date== dateTime);
+        }
+
         public VendaProduto AdicionaVendaProduto(Venda venda,Produto produto)
         {
             VendaProduto vendaProduto = new VendaProduto()
