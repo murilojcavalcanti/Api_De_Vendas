@@ -40,7 +40,7 @@
             <returns>IActionResult</returns>
             <response code="204">Caso a deleção seja feita com sucesso</response>
         </member>
-        <member name="M:vendasApi.Controllers.VendaController.AdicionaVenda(vendasApi.Data.Dtos.VendaDTO.CreateVendaDTO)">
+        <member name="M:vendasApi.Controllers.VendaController.AdicionaVenda(vendasApi.Data.Dtos.VendaDTO.CreateVendaDTO,System.Collections.Generic.List{System.Int32})">
             <summary>
             Adiciona uma venda ao banco de dados
             </summary>

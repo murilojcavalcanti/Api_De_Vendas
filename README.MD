@@ -23,3 +23,11 @@ Para rodar o projeto aperte as tecals:
 #Rodar Projeto 
 Crtl + F5
 O porjeto ira rodar nas portas https:7213,5011
+
+#Como configurar os secrets para adicionar os dados do banco de dados
+``` bash
+##Abra no terminal a pasta do projeto e digite o comando abaixo para inicializar o secret
+dotnet user-secrets init
+
+##Após inicializar você deverá configurar a connection string como apresentado abaixo colocando os dados do seu banco de dados.
+dotnet user-secrets set "ConnectionStrings:APIConnection" "server=localhost;database=usuariodb;user=root;password=root"
