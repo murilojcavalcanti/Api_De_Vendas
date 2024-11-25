@@ -1,6 +1,7 @@
 ﻿using ApiVendasApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using vendasApi.Models;
 
 namespace vendasApi.Repositories.vendaRepository
@@ -10,10 +11,28 @@ namespace vendasApi.Repositories.vendaRepository
         public VendaRepository(ApiVendasContext context) : base(context)
         {
         }
-
+        
         public IEnumerable<Venda> RecuperaVendasComVendedor()
         {
-            return _context.Set<Venda>().Include(v=>v.Vendedor).ToList();
-        }   
+            return _context.Set<Venda>()
+                .Include(v => v.Vendedor)
+                .Include(v => v.vendaProdutos)
+                .ThenInclude(vp => vp.Produto)
+                .ToList();
+        }
+        
+        public VendaProduto AdicionaVendaProduto(Venda venda,Produto produto)
+        {
+            VendaProduto vendaProduto = new VendaProduto()
+            {
+                VendaId = venda.Id,
+                Venda = venda,
+                ProdutoId = produto.Id,
+                Produto = produto
+
+            };
+             _context.Set<VendaProduto>().Add(vendaProduto);
+            return vendaProduto;
+        }
     }
 }

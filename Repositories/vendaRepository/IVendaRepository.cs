@@ -5,6 +5,7 @@ namespace vendasApi.Repositories.vendaRepository
 {
     public interface IVendaRepository:IRepository<Venda>
     {
-        IEnumerable<Venda> RecuperaVendasComVendedor();
+        public IEnumerable<Venda> RecuperaVendasComVendedor();
+        public VendaProduto AdicionaVendaProduto(Venda venda, Produto produto);
     }
 }
