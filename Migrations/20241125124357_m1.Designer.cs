@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace vendasApi.Migrations
 {
     [DbContext(typeof(ApiVendasContext))]
-    [Migration("20241122230541_m1")]
+    [Migration("20241125124357_m1")]
     partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,10 +35,20 @@ namespace vendasApi.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("ProdutoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VendaId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("preço")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.HasIndex("VendaId");
 
                     b.ToTable("Produtos");
                 });
@@ -63,6 +73,21 @@ namespace vendasApi.Migrations
                     b.HasIndex("VendedorId");
 
                     b.ToTable("Vendas");
+                });
+
+            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
+                {
+                    b.Property<int>("VendaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VendaId", "ProdutoId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("VendaProdutos");
                 });
 
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>
@@ -92,6 +117,17 @@ namespace vendasApi.Migrations
                     b.ToTable("Vendedores");
                 });
 
+            modelBuilder.Entity("vendasApi.Models.Produto", b =>
+                {
+                    b.HasOne("vendasApi.Models.Produto", null)
+                        .WithMany("Produtos")
+                        .HasForeignKey("ProdutoId");
+
+                    b.HasOne("vendasApi.Models.Venda", null)
+                        .WithMany("Produtos")
+                        .HasForeignKey("VendaId");
+                });
+
             modelBuilder.Entity("vendasApi.Models.Venda", b =>
                 {
                     b.HasOne("vendasApi.Models.Vendedor", "Vendedor")
@@ -101,6 +137,39 @@ namespace vendasApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Vendedor");
+                });
+
+            modelBuilder.Entity("vendasApi.Models.VendaProduto", b =>
+                {
+                    b.HasOne("vendasApi.Models.Produto", "Produto")
+                        .WithMany("vendaProdutos")
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("vendasApi.Models.Venda", "Venda")
+                        .WithMany("vendaProdutos")
+                        .HasForeignKey("VendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
+
+                    b.Navigation("Venda");
+                });
+
+            modelBuilder.Entity("vendasApi.Models.Produto", b =>
+                {
+                    b.Navigation("Produtos");
+
+                    b.Navigation("vendaProdutos");
+                });
+
+            modelBuilder.Entity("vendasApi.Models.Venda", b =>
+                {
+                    b.Navigation("Produtos");
+
+                    b.Navigation("vendaProdutos");
                 });
 
             modelBuilder.Entity("vendasApi.Models.Vendedor", b =>

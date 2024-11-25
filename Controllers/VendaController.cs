@@ -30,12 +30,17 @@ public class VendaController : ControllerBase
     /// <response code="201">Caso inserção seja feita com sucesso</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public ActionResult<ResponseVendaDTO> AdicionaVenda([FromQuery] CreateVendaDTO vendaDTO)
+    public ActionResult<ResponseVendaDTO> AdicionaVenda([FromQuery] CreateVendaDTO vendaDTO, List<int> ProdutoIds)
     {
         try
         {
             Venda venda = Mapper.Map<Venda>(vendaDTO);
             Venda VendaCreated = _unitOfWork.VendaRepository.Create(venda);
+            foreach(int ProdutoId in ProdutoIds)
+            {
+                Produto produto = _unitOfWork.ProdutoRepository.Get(p => p.Id == ProdutoId);
+                _unitOfWork.VendaRepository.AdicionaVendaProduto(venda, produto);
+            }
             _unitOfWork.Commit();
             ResponseVendaDTO responseVendaDTO = Mapper.Map<ResponseVendaDTO>(VendaCreated);
             return CreatedAtAction("RecuperaVendaPorId",
@@ -49,21 +54,7 @@ public class VendaController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao processar sua solicitação!");
         }
     }
-    /// <summary>
-    /// Adiciona um produto a uma venda que está no banco de dados
-    /// </summary>
-    /// <param name="VendaProdutoDTO"> Objetoo com os parametros de produtoid e VendaId</param>
-    /// <returns>IActionResult</returns>
-    /// <response code="201">Caso inserção seja feita com sucesso</response>
-    /*[HttpPost("/AdicionaProdutoVenda")]
-    public IActionResult AdicionaProdutoVenda([FromQuery] CreateVendaProdutoDTO VendaProdutoDTO)
-    {
-        var vendaProduto = Mapper.Map<VendaProduto>(VendaProdutoDTO);
-        Context.VendasProdutos.Add(vendaProduto);
-
-        Context.SaveChanges();
-        return Ok(vendaProduto);
-    }*/
+    
 
 
     /// <summary>
