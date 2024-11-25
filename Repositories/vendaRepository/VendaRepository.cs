@@ -15,6 +15,7 @@ namespace vendasApi.Repositories.vendaRepository
         public IEnumerable<Venda> RecuperaVendasComVendedor()
         {
             return _context.Set<Venda>()
+                .AsNoTracking()
                 .Include(v => v.Vendedor)
                 .Include(v => v.vendaProdutos)
                 .ThenInclude(vp => vp.Produto)
