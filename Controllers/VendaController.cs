@@ -36,12 +36,13 @@ public class VendaController : ControllerBase
         {
             Venda venda = Mapper.Map<Venda>(vendaDTO);
             Venda VendaCreated = _unitOfWork.VendaRepository.Create(venda);
-            foreach(int ProdutoId in ProdutoIds)
+            foreach (int ProdutoId in ProdutoIds)
             {
                 Produto produto = _unitOfWork.ProdutoRepository.Get(p => p.Id == ProdutoId);
-                _unitOfWork.VendaRepository.AdicionaVendaProduto(venda, produto);
+                _unitOfWork.VendaRepository.AdicionaVendaProduto(VendaCreated, produto);
             }
-            _unitOfWork.Commit();
+                _unitOfWork.Commit();
+
             ResponseVendaDTO responseVendaDTO = Mapper.Map<ResponseVendaDTO>(VendaCreated);
             return CreatedAtAction("RecuperaVendaPorId",
                 new
@@ -81,7 +82,7 @@ public class VendaController : ControllerBase
     /// </summary>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
-    [HttpGet]
+    [HttpGet("RecuperaVendasComVendedor",Name = "RecuperaVendasComVendedor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<ResponseVendaDTO>> RecuperaVendasComVendedor(int take = 10)
     {
@@ -125,7 +126,7 @@ public class VendaController : ControllerBase
     /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
-    [HttpGet("{id}")]
+    [HttpGet("RecuperaVendasComVendedor/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ResponseVendaDTO> RecuperaVendaPorIdComVendedor(int id)
     {
@@ -148,7 +149,7 @@ public class VendaController : ControllerBase
     /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
-    [HttpGet("{id}")]
+    [HttpGet("RecuperaVendasPorVendedor/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ResponseVendaDTO> RecuperaVendaPorVendedor(int id)
     {
@@ -171,7 +172,7 @@ public class VendaController : ControllerBase
     /// <param name="id"> inteiro usado para buscar a venda com esse indice</param>
     /// <returns>IActionResult</returns>
     /// <response code="200">Caso a requisição seja feita com sucesso</response>
-    [HttpGet("{id}")]
+    [HttpGet("/RecuperaVendasPorData/{data}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ResponseVendaDTO> RecuperaVendaPorVendedor(DateTime data)
     {

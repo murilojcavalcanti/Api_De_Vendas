@@ -52,10 +52,7 @@ namespace vendasApi.Repositories.vendaRepository
             VendaProduto vendaProduto = new VendaProduto()
             {
                 VendaId = venda.Id,
-                Venda = venda,
-                ProdutoId = produto.Id,
-                Produto = produto
-
+                ProdutoId = produto.Id
             };
              _context.Set<VendaProduto>().Add(vendaProduto);
             return vendaProduto;
